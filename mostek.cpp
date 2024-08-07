@@ -6,27 +6,58 @@ int main()
     int iloscludzi;
     cin >> iloscludzi;
     int ludzie[iloscludzi];
-    int najmniejsza;
-    bool czywejscwogole=false;
+
     for (int i = 0; i < iloscludzi; i++)
     {
         cin >> ludzie[i];
-        if (czywejscwogole == false)
-        {
-            najmniejsza = ludzie[i];
-        }
-        if (ludzie[i]<ludzie[i-1] && czywejscwogole)
-        {
-            najmniejsza = ludzie[i];
-        }
-        czywejscwogole = true;
     }
-    int czasomierz=0;
-    for (int i = 0; i < iloscludzi; i++)
+
+    for (int i = 0; i < iloscludzi - 1; i++)
     {
-        czasomierz = czasomierz + ludzie[i];
+        int minimum = i;
+        for (int j = i + 1; j < iloscludzi; j++)
+        {
+            if (ludzie[j] < ludzie[minimum])
+            {
+                minimum = j;
+            }
+        }
+
+        int temp = ludzie[minimum];
+        ludzie[minimum] = ludzie[i];
+        ludzie[i] = temp;
     }
-    int mnoznik=iloscludzi/2-1;
-    czasomierz = najmniejsza*mnoznik+czasomierz;
+
+    int czasomierz = 0;
+
+    while (iloscludzi > 3)
+    {
+        int czas1 = 2 * ludzie[0] + ludzie[iloscludzi - 1] + ludzie[iloscludzi - 2];
+        int czas2 = 2 * ludzie[1] + ludzie[0] + ludzie[iloscludzi - 1];
+
+        if (czas1 < czas2)
+        {
+            czasomierz = czasomierz + czas1;
+        }
+        else
+        {
+            czasomierz = czasomierz + czas2;
+        }
+        iloscludzi = iloscludzi - 2;
+    }
+
+    if (iloscludzi == 3)
+    {
+        czasomierz = czasomierz + ludzie[0] + ludzie[1] + ludzie[2];
+    }
+    if (iloscludzi == 2)
+    {
+        czasomierz = czasomierz + ludzie[1];
+    }
+    if (iloscludzi == 1)
+    {
+        czasomierz = czasomierz + ludzie[0];
+    }
+
     cout << czasomierz;
 }
